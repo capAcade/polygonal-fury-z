@@ -1,0 +1,41 @@
+{
+  "name": "@capacade/phaser3-game-template",
+  "version": "0.0.1",
+  "description": "template for your first game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "webpack serve",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capAcade/phaser3-game-template.git"
+  },
+  "keywords": [
+    "phaser"
+  ],
+  "author": "Sven van Straalen",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/capAcade/phaser3-game-template/issues"
+  },
+  "homepage": "https://github.com/capAcade/phaser3-game-template#readme",
+  "dependencies": {
+    "@capacade/arcadekeymap": "^1.0.0",
+    "phaser": "^3.55.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.31.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "html-webpack-plugin": "^5.3.2",
+    "phaser-assets-webpack-plugin": "^2.0.0",
+    "webpack": "^5.46.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
