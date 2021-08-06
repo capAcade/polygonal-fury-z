@@ -28,6 +28,7 @@ export default class playTheGame extends Phaser.Scene {
 
     for(var i = 0; i < 50; i++){
       let coin = new Circle(this, Math.random() * 800, Math.random() * 600, this.addExplosion);
+      this.coins.push(coin);
     }
   }
 
@@ -35,7 +36,8 @@ export default class playTheGame extends Phaser.Scene {
    
   }
 
-  addExplosion() {
+  addExplosion(circle) {
+    console.log(circle.x, circle.y);
     console.log('boem');
   }
 }
