@@ -4,6 +4,7 @@ import playerImg from '../assets/img/player.png';
 import ground from '../assets/img/ground.png';
 import bg from '../assets/img/bg.png';
 import coinImg from '../assets/img/coin.png';
+import Circle from '../components/Circle';
 
 export default class playTheGame extends Phaser.Scene {
   constructor() {
@@ -24,32 +25,22 @@ export default class playTheGame extends Phaser.Scene {
   create() {
     this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(0.78);
 
-
-    this.coin = this.physics.add.sprite(195, 375, 'big_coin');
-    /*this.anims.create({
-      key: 'coin_anim',
-      frames: this.anims.generateFrameNumbers('coin'),
-      frameRate: 5,
-      repeat: -1,
-    });
-    this.coin.play('coin_anim');*/
-
     var customBounds = new Phaser.Geom.Rectangle(0, 0, 800, 600);
 
-    var group = this.physics.add.group({
-      key: 'coin',
-      frameQuantity: 48,
-      bounceX: 1,
-      bounceY: 1,
-      customBoundsRectangle: customBounds,
-      collideWorldBounds: true,
-      velocityX: Math.random() * 50 + 100,
-      velocityY: Math.random() * 50 + 100,
-  });
+    this.coins = [];
 
+    for(var i = 0; i < 50; i++){
+      // let coin = this.physics.add.image(Math.random() * 800, Math.random() * 600, 'coin');
 
+      let coin = new Circle(this, Math.random() * 800, Math.random() * 600, 'coin');
 
-  Phaser.Actions.RandomRectangle(group.getChildren(), customBounds);
+      
+      this.coins.push(coin);
+
+      this.physics.add.existing(coin);
+  
+    }
+
 
 
     //this.physics.add.collider(this.player, platforms);
