@@ -17,4 +17,8 @@ export default class Circle {
       callback(this.body);
     });
   }
+
+  getBody(){
+    return this.body;
+  }
 }
