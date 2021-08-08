@@ -41,8 +41,6 @@ export default class playTheGame extends Phaser.Scene {
       explosion.setScale(explosion.scale + 0.2)
       
       if(explosion.scale > 10){
-        console.log(explosion);
-
         explosion.destroy();
         this.explosions.splice(i, 1);
 
@@ -58,8 +56,11 @@ export default class playTheGame extends Phaser.Scene {
     let explosion = this.physics.add.image(circle.x, circle.y, 'coin');
     
     this.physics.add.overlap(explosion,  this.coins, (explosion, circle) => {
-      circle.destroy();
-      this.addExplosion(circle);
+      //check the scale for small explosion delay
+      if(explosion.scale > 5){
+        circle.destroy();
+        this.addExplosion(circle);
+      }
     });
 
     this.explosions.push(explosion);
