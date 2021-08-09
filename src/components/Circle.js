@@ -7,6 +7,7 @@ export default class Circle {
     let body = this.scene.physics.add.image(Math.random() * 1920, Math.random() * 1080, 'circle_big');
     this.body = body;
 
+    this.body.setCircle(50);
     this.body.setScale(0.3);
     this.body.setVelocity(Math.random() * 50 + 100, Math.random() * 150 + 50);
     this.body.setBounce(1, 1);

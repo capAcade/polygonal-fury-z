@@ -30,14 +30,18 @@ export default class playTheGame extends Phaser.Scene {
     this.load.atlas('flares', flaresImg, flaresJson);
     this.load.image('spark0', blueImg);
     this.load.image('spark1', redImg);
+
+    //this.load.audio('lazer', '../assets/audio/lazer.wav');
+
   }
 
   create() {
     //this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(0.78);
 
+
     this.coins = this.add.group();
 
-    for(var i = 0; i < 150; i++){
+    for(var i = 0; i < 1150; i++){
       let coin = new Circle(this, Math.random() * 1920, Math.random() * 1080, this.addExplosion.bind(this));
       this.coins.add(coin.getBody());
       //this.coins.add(coin);
@@ -78,6 +82,8 @@ export default class playTheGame extends Phaser.Scene {
             lifespan: 300,
             gravityY: 800,
         });
+
+        //this.sound.add('lazer');
   
         emitter0.explode(150, explosion.x, explosion.y);
         emitter1.explode(150, explosion.x, explosion.y);
@@ -90,6 +96,7 @@ export default class playTheGame extends Phaser.Scene {
     console.log('boem');
 
     let explosion = this.physics.add.image(circle.x, circle.y, 'circle_big');
+    explosion.setCircle(55);
     explosion.setScale(0.4);
     
     this.physics.add.overlap(explosion,  this.coins, (explosion, circle) => {
