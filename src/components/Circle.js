@@ -6,7 +6,7 @@ export default class Circle {
     this.scene = scene;
     let body = this.scene.physics.add.image(Math.random() * 1920, Math.random() * 1080, 'circle_big');
     this.body = body;
-
+    
     this.body.setCircle(50);
     this.body.setScale(0.3);
     this.body.setVelocity(Math.random() * 50 + 100, Math.random() * 150 + 50);
@@ -16,7 +16,7 @@ export default class Circle {
     this.body.on('pointerdown', () => {
       // kill when done
       body.destroy();
-      callback(this.body);
+      callback(this.body, true);
     });
   }
 

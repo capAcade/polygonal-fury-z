@@ -17,6 +17,9 @@ export default class playTheGame extends Phaser.Scene {
     super('playTheGame');
 
     this.explosions = [];
+    this.count = 255;
+    this.clicks = 0;
+
   }
 
   collectCoin() {
@@ -41,13 +44,19 @@ export default class playTheGame extends Phaser.Scene {
 
     this.coins = this.add.group();
 
-    for(var i = 0; i < 1150; i++){
+    for(var i = 0; i < this.count; i++){
       let coin = new Circle(this, Math.random() * 1920, Math.random() * 1080, this.addExplosion.bind(this));
       this.coins.add(coin.getBody());
       //this.coins.add(coin);
     }
 
     this.particles = this.add.particles('flares');
+
+    this.text = this.add.text(50, 900, '', { font: '55px Courier', fill: '#00ff00' });
+    this.text.setText([
+      this.count + '/' + this.count,
+      'Clicks:' + 0
+     ]);
   }
 
   update() {
@@ -91,9 +100,17 @@ export default class playTheGame extends Phaser.Scene {
     }
   }
 
-  addExplosion(circle) {
+  addExplosion(circle, clicked) {
+    if(clicked){
+      this.clicks++;
+    }
     console.log(circle.x, circle.y);
     console.log('boem');
+
+    this.text.setText([
+      this.count + '/' + this.coins.children.size,
+      'Clicks:' + this.clicks
+    ]);
 
     let explosion = this.physics.add.image(circle.x, circle.y, 'circle_big');
     explosion.setCircle(55);
@@ -103,7 +120,7 @@ export default class playTheGame extends Phaser.Scene {
       //check the scale for small explosion delay
       if(explosion.scale > 2){
         circle.destroy();
-        this.addExplosion(circle);
+        this.addExplosion(circle, false);
       }
     });
 
