@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
 
 export default class Circle {
-  constructor(scene, x, y, callback) {
+  constructor(scene, type, x, y, group, callBack) {
 
     this.scene = scene;
-    let body = this.scene.physics.add.image(Math.random() * 1920, Math.random() * 1080, 'circle_big');
-    this.body = body;
+    this.group = group;
+    this.body = this.scene.physics.add.image(x, y, 'circle_big');;
     
     this.body.setCircle(50);
     this.body.setScale(0.3);
@@ -15,10 +15,14 @@ export default class Circle {
     this.body.setInteractive();
     this.body.on('pointerdown', () => {
       // kill when done
-      body.destroy();
-      callback(this.body, true);
+      this.body.destroy();
+
+      callBack(this.body.x, this.body.y, true);
     });
+
+    this.group.add(this.body);
   }
+
 
   getBody(){
     return this.body;
