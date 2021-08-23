@@ -5,6 +5,7 @@ export default class Explosion {
 
     this.scene = scene;
     this.group = group;
+    this.exploding = false;
     this.alive = true;
 
     this.explosion = this.scene.physics.add.sprite(x, y, 'circle');
@@ -24,7 +25,6 @@ export default class Explosion {
       //check the scale for small explosion delay
       if(explosion.scale > 2){
         object.destroy();
-        this.explosion.destroy();
         callback(object.x, object.y, false);
         //this.addExplosion(circle, false);
       }
@@ -32,13 +32,18 @@ export default class Explosion {
   }
 
   update(){
-    if(this.alive){
+    if(!this.exploding){
       this.explosion.setScale(this.explosion.scale + 0.1)  
-      if(this.explosion.scale > 2 && this.alive){
-        //this.explosion.destroy();
-        this.alive = false;
+      if(this.explosion.scale > 2.5 && this.alive){
+        this.exploding = true;
         this.explosion.play('explode-circle-final');
   
+      }
+    }
+    if(this.explosion && this.explosion.anims && this.explosion.anims.currentFrame){
+      if(this.explosion.anims.currentFrame.index > 12){
+        this.alive = false;
+        this.explosion.destroy();
       }
     }
   }

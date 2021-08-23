@@ -61,7 +61,13 @@ export default class playTheGame extends Phaser.Scene {
   update() {
     for(let i in this.explosions){
       let explosion = this.explosions[i];
-      explosion.update();
+
+      if(explosion.alive){
+        explosion.update();
+      }
+      else{
+        this.explosions.splice(i, 1);
+      }
     }
   }
 
