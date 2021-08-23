@@ -2,7 +2,6 @@ import Phaser from 'phaser';
 
 export default class Explosion {
   constructor(scene, x, y, group, callback) {
-
     this.scene = scene;
     this.group = group;
     this.exploding = false;
@@ -24,9 +23,7 @@ export default class Explosion {
     this.scene.physics.add.overlap(this.explosion,  this.group, (explosion, object) => {
       //check the scale for small explosion delay
       if(explosion.scale > 2){
-        object.destroy();
-        callback(object.x, object.y, false);
-        //this.addExplosion(circle, false);
+        object.takeDamage(explosion);
       }
     });
   }

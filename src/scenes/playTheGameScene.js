@@ -71,18 +71,7 @@ export default class playTheGame extends Phaser.Scene {
     }
   }
 
-  addExplosion(x, y, clicked) {
-    if(clicked){
-      this.clicks++;
-    }
-    console.log(x, y);
-    console.log('boem');
-
-    this.text.setText([
-      this.count + '/' + this.gameObjects.children.size,
-      'Clicks:' + this.clicks
-    ]);
-
+  addExplosion(x, y) {
     this.explosions.push(new Explosion(this, x, y, this.gameObjects, this.addExplosion.bind(this)));
 
   }

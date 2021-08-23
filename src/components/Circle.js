@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 export default class Circle {
-  constructor(scene, type, x, y, group, callBack) {
+  constructor(scene, type, x, y, group, explode) {
     this.scene = scene;
     this.group = group;
     this.body = this.scene.physics.add.sprite(x, y, 'circle');
@@ -15,6 +15,9 @@ export default class Circle {
       frames: this.scene.anims.generateFrameNumbers('circle', { frames: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18] }),
       frameRate: 24,
     });
+    this.explode = explode;
+    //only take dmg by the same explosion once
+    this.takenDamageBy = [];
 
     switch(type){
       case "lvl11":
@@ -29,15 +32,8 @@ export default class Circle {
         this.body.setFrame(0);
         this.lives = 3;
     }
-
-    //this.body.setFrame(18);
-    /*this.scene.anims.create({
-      key: 'explode-circle-final',
-      frames: this.scene.anims.generateFrameNumbers('circle', { frames: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30] }),
-      frameRate: 24,
-      hideOnComplete: true
-    });*/
     
+    this.body.takeDamage = this.takeDamage.bind(this);
     this.body.setCircle(40);
     this.body.setScale(0.6);
     this.body.setVelocity(Math.random() * 50 + 100, Math.random() * 150 + 50);
@@ -45,25 +41,40 @@ export default class Circle {
     this.body.setCollideWorldBounds(true);
     this.body.setInteractive();
     this.body.on('pointerdown', () => {
-      console.log('on pointer down')
-      this.lives--;
-      
-      if(this.lives == 2){
-        this.body.play('explode-circle-outer');
-      }
-      if(this.lives == 1){
-        this.body.play('explode-circle-middle');
-      }
-      // kill when out of lives
-      if(this.lives <= 0){
-        //this.body.play('explode-circle-final');
-
-        this.body.destroy();
-        callBack(this.body.x, this.body.y, true);
-      }
+      this.scene.clicks++;
+      this.scene.text.setText([
+        this.scene.count + '/' + this.scene.gameObjects.children.size,
+        'Clicks:' + this.scene.clicks
+      ]);
+      this.takeDamage();
     });
 
     this.group.add(this.body);
+  }
+
+  takeDamage(explosion){
+    if(explosion){
+      if(this.takenDamageBy.find(element => element === explosion)){
+        return;
+      }
+      this.takenDamageBy.push(explosion);
+    }
+    
+    this.lives--;
+      
+    if(this.lives == 2){
+      this.body.play('explode-circle-outer');
+    }
+    if(this.lives == 1){
+      this.body.play('explode-circle-middle');
+    }
+    // kill when out of lives
+    if(this.lives <= 0){
+      //this.body.play('explode-circle-final');
+
+      this.body.destroy();
+      this.explode(this.body.x, this.body.y, true);
+    }
   }
 
 
