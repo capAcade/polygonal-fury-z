@@ -7,14 +7,24 @@ export default class Explosion {
     this.group = group;
     this.alive = true;
 
-    this.explosion = this.scene.physics.add.image(x, y, 'circle_big');
-    this.explosion.setCircle(55);
-    this.explosion.setScale(0.4);
+    this.explosion = this.scene.physics.add.sprite(x, y, 'circle');
+    this.explosion.setFrame(18);
+    this.explosion.setCircle(40);
+    this.explosion.setScale(0.6);
+
+    this.scene.anims.create({
+      key: 'explode-circle-final',
+      frames: this.scene.anims.generateFrameNumbers('circle', { frames: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30] }),
+      frameRate: 24,
+      hideOnComplete: true
+    });
+    
     
     this.scene.physics.add.overlap(this.explosion,  this.group, (explosion, object) => {
       //check the scale for small explosion delay
       if(explosion.scale > 2){
         object.destroy();
+        this.explosion.destroy();
         callback(object.x, object.y, false);
         //this.addExplosion(circle, false);
       }
@@ -22,45 +32,15 @@ export default class Explosion {
   }
 
   update(){
-    this.explosion.setScale(this.explosion.scale + 0.1)  
-    if(this.explosion.scale > 2.5 && this.alive){
-      this.explosion.destroy();
-      this.alive = false;
-      this.onDeath(this.explosion.x, this.explosion.y);
+    if(this.alive){
+      this.explosion.setScale(this.explosion.scale + 0.1)  
+      if(this.explosion.scale > 2 && this.alive){
+        //this.explosion.destroy();
+        this.alive = false;
+        this.explosion.play('explode-circle-final');
+  
+      }
     }
-  }
-
-  onDeath(x, y){
-       //  this.explosions.splice(i, 1);
-
-        var emitter0 = this.scene.add.particles('spark0').createEmitter({
-          x: x,
-          y: y,
-          speed: { min: -800, max: 800 },
-          angle: { min: 0, max: 360 },
-          scale: { start: 0.5, end: 0 },
-          blendMode: 'SCREEN',
-          //active: false,
-          lifespan: 600,
-          gravityY: 800,
-        });
-  
-        var emitter1 = this.scene.add.particles('spark1').createEmitter({
-            x: x,
-            y: y,
-            speed: { min: -800, max: 800 },
-            angle: { min: 0, max: 360 },
-            scale: { start: 0.3, end: 0 },
-            blendMode: 'SCREEN',
-            //active: false,
-            lifespan: 300,
-            gravityY: 800,
-        });
-
-        //this.sound.add('lazer');
-  
-        emitter0.explode(150, x, y);
-        emitter1.explode(150, x, y);
   }
 
   getBody(){

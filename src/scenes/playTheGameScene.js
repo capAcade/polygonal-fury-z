@@ -10,6 +10,7 @@ import Explosion from '../components/Explosion';
 
 import redImg from '../assets/img/red.png';
 import blueImg from '../assets/img/blue.png';
+import circleAnimations from '../assets/img/default_name.png';
 
 import levelData from '../assets/data/levels.json'
 
@@ -26,6 +27,8 @@ export default class playTheGame extends Phaser.Scene {
     this.load.spritesheet('circle_big', circleImg, { frameWidth: 115, frameHeight: 115 });
     this.load.image('spark0', blueImg);
     this.load.image('spark1', redImg);
+    this.load.spritesheet('circle', circleAnimations, { frameWidth: 99, frameHeight: 99 });
+
   }
 
   create() {
